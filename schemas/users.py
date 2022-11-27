@@ -5,6 +5,7 @@ def userEntity(user) -> dict:  #user viene desde la base de datos
         "_id": str(user["_id"]),
         "user": user["user"],
         "password": user["password"],
+       # "confirmPassword": user["confirmPassword"],
     }
 
 def usersEntity(users) -> dict:

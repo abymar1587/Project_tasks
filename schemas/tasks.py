@@ -6,10 +6,16 @@ def taskEntity(task) -> dict:  #task viene desde la base de datos
         "tittle": task["tittle"],
         "description": task["description"],
         "important": task["important"],
+        "idUser": task["idUser"],
     }
 
 def tasksEntity(tasks) -> dict:
     resultado = []
-    for task in tasks:
+    for task in tasks:                    
         resultado.append(taskEntity(task))
-    return resultado
+    result=[]
+    for item in resultado:
+        del item["idUser"]
+        result.append(item)      
+
+    return result

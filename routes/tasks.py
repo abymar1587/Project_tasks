@@ -4,11 +4,13 @@ from schemas.tasks import tasksEntity
 from bson import ObjectId
 from models.models import Task #se importa el modelo desde el archivo models.py
 
+
+
 tasks = APIRouter()
 
-@tasks.get("/tasks", tags=["Tasks"])
-def all_tasks():  
-    return tasksEntity(db.tasks.find()) # se llama la funcion creada en schemas para que muestre en 
+@tasks.get("/tasks/{idUser}", tags=["Tasks"]) #solo si se tiene un id de usuatio se puden listar
+def all_tasks(idUser: str):  
+    return tasksEntity(db.tasks.find({"idUser":idUser})) # se llama la funcion creada en schemas para que muestre en 
                                         #localhost:8000 todos los usuarios dque tenga bd 
 
 @tasks.get("/tasks/{id}", tags=["Tasks"])
@@ -17,9 +19,11 @@ def an_task(id: str):
                                         #para que muestre en localhost:8000 la tarea que corresponda 
                                         # a un determinado id
       
-@tasks.post("/tasks", tags=["Tasks"])
-def add_task(task: Task):
-    id = db.tasks.insert_one(dict(task)).inserted_id #instruccion para agregar a la base de datos
+@tasks.post("/tasks/{idUser}", tags=["Tasks"]) #solo si se tiene un id de usuatio se puden crear taras
+def add_task(idUser: str, task: Task):
+    task=dict(task) #convierte task en un diccionario
+    task["idUser"] = idUser #agrega el id del usuario a la tarea para que e guarde en la bae de dato
+    id = db.tasks.insert_one(task).inserted_id #instruccion para agregar a la base de datos
     return tasksEntity(db.tasks.find({"_id":ObjectId(id)}))# se llama la funcion creada en schemas 
                                         #para que muestre en localhost:8000 la tarea que fue añadida
 
