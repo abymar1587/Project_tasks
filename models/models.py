@@ -8,4 +8,5 @@ class User(BaseModel): #collection users
 class Task(BaseModel): #coooection tasks
     tittle: str
     description: str
-    important: bool
+    important: bool #se quita esta instruccion para probar agregar datos con vue
+    idUser: str
